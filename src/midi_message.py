@@ -4,7 +4,6 @@ class MidiMessage:
         decrypted = self._decrypt(midi_data)
         self.channel = decrypted['channel']
         self.msg_type = decrypted['type']
-
         self.knob = decrypted['knob']
         self.value = decrypted['value']
 
@@ -17,14 +16,13 @@ class MidiMessage:
             case 0x80: return "NOTEOFF"
             case _: return "UNKNOWN"
 
+    # Translate data in a more readable way
     def _decrypt(self, midi_data):
         msg = midi_data[0]
         first_byte = msg[0]
-        channel = first_byte & 0xF
-        msg_type = self._get_msg_type(first_byte)
         return {
-            'channel': channel,
-            'type': msg_type,
+            'channel': first_byte & 0xF,
+            'type': self._get_msg_type(first_byte),
             'knob': msg[1],
             'value': msg[2]
         }

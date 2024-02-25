@@ -4,13 +4,10 @@ import src.midi_message as midi_message
 
 # This is the main app controller
 class XTouch:
-    CONTROL_CHANGE = 0xB0
-    NOTE_ON = 0x90
-    NOTE_OFF = 0x80
     PRESET_CHANGE_RANGE = range(8, 15)
 
     def __init__(self, midiin, midiout, virtualout, cli):
-        # MIDI connections
+        # MIDI CONNECTIONS #
         self.midiin = midiin
         self.midiout = midiout
         self.virtualout = virtualout
@@ -20,11 +17,17 @@ class XTouch:
 
         self.cli = cli
         # callback on midi message received
-        midiin.ignore_types(False, False, False)
         midiin.set_callback(self.midiin_callback)
 
         # TODO:signal routing (preset change, etc)
-        self.current_preset = None
+        self.current_preset = self.set_current_preset(1)
+
+    # CLASS METHODS #
+
+    def set_current_preset(self, preset):
+        print('TODO: XTouch.set_current_preset()')
+        # set offset for CC, CCNotes & buttons
+        # light the right leds
 
     def midiin_callback(self, midi_data, data):
         # Convert midi_data to MidiMessage
@@ -39,6 +42,4 @@ class XTouch:
         # if NOFF or CC used, route signal
         # self.route(midi_data)
 
-    def route(self, midi_data):
-        print('TODO: XTouch.route()')
-        # Apply offset
+    # PRIVATE METHODS #

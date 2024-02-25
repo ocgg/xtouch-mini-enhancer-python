@@ -30,7 +30,9 @@ def init_midi(midi):
 
 
 def create_midiin():
-    return init_midi(rtmidi.MidiIn())
+    midi = init_midi(rtmidi.MidiIn())
+    midi.ignore_types(False, False, False)
+    return midi
 
 
 def create_midiout():
