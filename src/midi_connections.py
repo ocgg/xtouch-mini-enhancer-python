@@ -19,18 +19,25 @@ def find_port(midi):
         return port if port else None
 
 
-# Main function
+# Initialize MIDI connections
 def init_midi(midi):
     port = find_port(midi)
     midi.open_port(port) if port else exit(xtouch_not_found())
     return midi
 
 
-# DECLARATIONS ################################################################
+# MAIN ########################################################################
 
 
-midi_in = init_midi(rtmidi.MidiIn())
-midi_out = init_midi(rtmidi.MidiOut())
-virtual_out = rtmidi.MidiOut()
+def create_midiin():
+    return init_midi(rtmidi.MidiIn())
 
-virtual_out.open_virtual_port("OCGG")
+
+def create_midiout():
+    return init_midi(rtmidi.MidiOut())
+
+
+def create_virtualout():
+    virtual_out = rtmidi.MidiOut()
+    virtual_out.open_virtual_port("OCGG")
+    return virtual_out
