@@ -5,6 +5,8 @@ import src.xtouch as xtouch
 # Instantiation of our main controller
 device = xtouch.XTouch(midi.midi_in, midi.midi_out, midi.virtual_out)
 
+print(device.midiin.is_port_open())
+input()
 
 # DO NOT FORGET !
-# TODO: close midi ports when app is closed
+print("TODO: close midi ports when app is closed")
