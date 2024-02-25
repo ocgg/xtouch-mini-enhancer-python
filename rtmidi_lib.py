@@ -1,5 +1,5 @@
-# import lib.ctl.leds as leds
-import lib.models.xtouch as xtouch
+# import src.ctl.leds as leds
+import src.models.xtouch as xtouch
 
 # fromxtouch = rtmidi.MidiIn()
 # toxtouch = rtmidi.MidiOut()
@@ -77,6 +77,9 @@ def process_message(message):
 
 
 ctl = xtouch.XTouch()
+if ctl.midiin is None:
+    print("No X-Touch Mini found: check if the device is connected.")
+    exit()
 
 # led_on(toxtouch)
 
