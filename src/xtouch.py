@@ -25,6 +25,7 @@ class XTouch:
         self.cli = cli
         # INIT #
         self.current_preset = self.PRESETS[0]
+        leds.light_preset_led(8)  # light the first preset led
         # callback on midi message received
         midiin.set_callback(self.midiin_callback)
 
