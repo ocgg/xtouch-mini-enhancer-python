@@ -7,9 +7,6 @@ import src.xtouch as xtouch
 
 # DECLARATIONS ################################################################
 
-NOTEON = 0x90
-NOTEOFF = 0x80
-CC = 0xB0
 
 midiin = midi.create_midiin()           # MIDI from xtouch
 midiout = midi.create_midiout()         # MIDI to xtouch (leds management)

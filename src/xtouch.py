@@ -20,11 +20,9 @@ class XTouch:
         # MIDI CONNECTIONS #
         self.midiin = midiin
         self.virtualout = virtualout
-
         # VIEWS #
         self.leds = leds
         self.cli = cli
-
         # INIT #
         self.current_preset = self.PRESETS[0]
         # callback on midi message received
@@ -48,6 +46,7 @@ class XTouch:
             # change preset on noteoff (else do nothing)
             if msg.msg_type == "NOTEOFF":
                 self.current_preset = self.PRESETS[msg.knob - 8]
+                self.leds.light_preset_led(msg.knob)
         # Do not translate any other message
         else:
             # this only change msg.source (does not apply offset)

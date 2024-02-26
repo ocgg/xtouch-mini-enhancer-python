@@ -14,7 +14,7 @@ class MidiMessage:
     # unused but left there as a reminder
     # LAYER_B_CC_NOTE_RANGE = range(24, 32)
 
-    # MIDI byte meanings
+    # MIDI byte meaning
     NOTEON = 0x90
     NOTEOFF = 0x80
     CC = 0xB0

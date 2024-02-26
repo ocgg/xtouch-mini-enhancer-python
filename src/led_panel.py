@@ -8,12 +8,29 @@ class LedPanel:
     UPPER_ROW_NOTE_RANGE = range(0, 8)
     # LOWER_ROW_NOTE_RANGE = range(8, 16)
 
+    # MIDI byte meaning
+    NOTEON = 0x90
+    NOTEOFF = 0x80
+    CC = 0xB0
+
     def __init__(self, midiout):
         self.midiout = midiout
 
-    def led_on():
-        note = 0
-        velocity = 1
-        status = 0x90   # 0x90 = Note ON, add "+ 10" for canal 10
-        note_on = [status, note, velocity]
-        self.midiout.send_message(note_on)
+    # CLASS METHODS #
+
+    def light_preset_led(self, note):
+        note -= 8
+        # light the preset led, dark others leds of the row
+        for led_note in self.UPPER_ROW_NOTE_RANGE:
+            if led_note == note:
+                self._light(led_note)
+            else:
+                self._dark(led_note)
+
+    # PRIVATE METHODS #
+
+    def _light(self, led):
+        self.midiout.send_message([self.NOTEON, led, 1])
+
+    def _dark(self, led):
+        self.midiout.send_message([self.NOTEOFF, led, 0])
