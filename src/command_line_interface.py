@@ -25,5 +25,5 @@ class CommandLineInterface:
             val = f"VEL:{msg.value}"
         else:
             val = f"VAL:{msg.value}"
-        string = f"{prefix} CH:{msg.channel:2}, {msg.msg_type:7}:{msg.knob}, {val}"
-        return f"{string:40}"
+        string = f"{prefix} CH:{msg.channel}, {msg.msg_type}:{msg.knob}, {val}"
+        return f"{string:35}"

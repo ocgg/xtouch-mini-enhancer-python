@@ -52,7 +52,8 @@ class XTouch:
             if msg.msg_type == "NOTEOFF":
                 self.set_current_preset(msg.knob - 7)
         else:
-            translated_msg = self.current_preset.translate(msg)
+            # translated_msg = self.current_preset.translate(msg)
+            translated_msg = msg.translate(self.current_preset)
             self.cli.virtualout_msg = translated_msg
             self.virtualout.send_message(translated_msg.to_raw())
         # if NOFF or CC used, route signal

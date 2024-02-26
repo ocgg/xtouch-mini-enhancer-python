@@ -1,5 +1,9 @@
+from copy import deepcopy
+
+
 class MidiMessage:
     def __init__(self, raw_msg, source):
+        # TODO:better way to handle MidiMessage:first_byte
         # keep first_byte unchanged (keep channel & type)
         self.first_byte = raw_msg[0][0]
         decrypted = self._decrypt(raw_msg)
@@ -10,6 +14,15 @@ class MidiMessage:
         self.source = source
 
     # CLASS METHODS #
+
+    def translate(self, preset):
+        new_msg = deepcopy(self)
+        new_msg.source = "virtualout"
+        if new_msg.msg_type == "CC":
+            new_msg.knob += preset.cc_offset
+        elif new_msg.msg_type in ("NOTEON", "NOTEOFF"):
+            new_msg.knob += preset.note_offset
+        return new_msg
 
     def to_raw(self):
         # first_byte = (self.msg_type << 4) | self.channel
