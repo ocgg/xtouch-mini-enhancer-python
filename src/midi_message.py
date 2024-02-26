@@ -19,9 +19,9 @@ class MidiMessage:
         new_msg = deepcopy(self)
         new_msg.source = "virtualout"
         if new_msg.msg_type == "CC":
-            new_msg.knob += preset.cc_offset
+            new_msg.knob += preset['cc_offset']
         elif new_msg.msg_type in ("NOTEON", "NOTEOFF"):
-            new_msg.knob += preset.note_offset
+            new_msg.knob += preset['note_offset']
         return new_msg
 
     def to_raw(self):
