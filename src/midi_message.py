@@ -4,6 +4,7 @@ from copy import deepcopy
 class MidiMessage:
     PRESET_CHANGE_RANGE = range(8, 16)   # last range arg is excluded
 
+    # Layer ranges
     LAYER_A_CC_RANGE = range(1, 9)
     LAYER_B_CC_RANGE = range(10, 19)
     LAYER_A_NOTE_RANGE = range(0, 24)
@@ -13,9 +14,14 @@ class MidiMessage:
     # unused but left there as a reminder
     # LAYER_B_CC_NOTE_RANGE = range(24, 32)
 
+    # MIDI byte meanings
+    NOTEON = 0x90
+    NOTEOFF = 0x80
+    CC = 0xB0
+
     def __init__(self, raw_msg, source):
-        # TODO:better way to handle MidiMessage:first_byte
         # keep first_byte unchanged (keep channel & type)
+        # see to_raw() for more details
         self.first_byte = raw_msg[0][0]
         decrypted = self._decrypt(raw_msg)
         self.channel = decrypted['channel']
@@ -25,6 +31,9 @@ class MidiMessage:
         self.source = source
 
     # CLASS METHODS #
+
+    def is_noteoff(self):
+        return self.msg_type == "NOTEOFF"
 
     def is_note(self):
         return self.msg_type in ("NOTEON", "NOTEOFF")
@@ -57,22 +66,27 @@ class MidiMessage:
         return new_msg
 
     def to_raw(self):
+        # TODO:better way to handle self.first_byte when converting to raw_msg
+        # EX:
+        # channel = 10
+        # if msg.is_cc(): first_byte = self.CC + channel
+
         return [self.first_byte, self.knob, self.value]
 
     # PRIVATE METHODS #
 
     def _get_msg_type(self):
-        match self.first_byte & 0xF0:
-            case 0xB0: return "CC"
-            case 0x90: return "NOTEON"
-            case 0x80: return "NOTEOFF"
+        match self.first_byte & 0xF0:   # first 4 bits
+            case self.CC: return "CC"
+            case self.NOTEON: return "NOTEON"
+            case self.NOTEOFF: return "NOTEOFF"
             case _: return "UNKNOWN"
 
     # Translate data in a more readable way
     def _decrypt(self, raw_msg):
         msg = raw_msg[0]
         return {
-            'channel': self.first_byte & 0xF,
+            'channel': self.first_byte & 0xF,   # last 4 bits
             'type': self._get_msg_type(),
             'knob': msg[1],
             'value': msg[2]
