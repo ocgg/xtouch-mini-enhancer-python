@@ -26,13 +26,13 @@ device = xtouch.XTouch(midiin, virtualout, leds, cli)
 # run the cli app
 # !!! FOR NOW, THIS AND ITS LOOP is the only reason why
 # the app gently waits for midi input.
-cli.run()
-
-
-# CLEANUP #####################################################################
-
-
-# DO NOT FORGET !
-print("TODO: close midi ports when app is closed")
-# close midi ports
-# dark all leds
+try:
+    print('Press CTRL-C to quit')
+    cli.run()
+except KeyboardInterrupt:
+    # dark all leds
+    leds.dark_all_upper_leds()
+    # close midi ports
+    midiin.close_port()
+    midiout.close_port()
+    virtualout.delete()

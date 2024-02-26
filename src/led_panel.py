@@ -45,6 +45,10 @@ class LedPanel:
             else:
                 self._dark(led_note)
 
+    def dark_all_upper_leds(self):
+        for led_note in self.UPPER_ROW_NOTE_RANGE:
+            self._dark(led_note)
+
     # PRIVATE METHODS #
 
     def _light(self, led):
