@@ -4,7 +4,6 @@ import src.midi_message as midi_message
 
 # This is the main app controller
 class XTouch:
-    PRESET_CHANGE_RANGE = range(8, 16)   # 16 is excluded
     PRESETS = [
         {'cc_offset': 0,    'note_offset': 0},
         {'cc_offset': 18,   'note_offset': 48},

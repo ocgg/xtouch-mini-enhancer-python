@@ -2,6 +2,10 @@ from copy import deepcopy
 
 
 class MidiMessage:
+    PRESET_CHANGE_RANGE = range(8, 16)   # 16 is excluded
+    LAYER_B_CC_RANGE = range(10, 19)     # 19 is excluded
+    LAYER_B_NOTES_RANGE = range(24, 48)  # 48 is excluded
+
     def __init__(self, raw_msg, source):
         # TODO:better way to handle MidiMessage:first_byte
         # keep first_byte unchanged (keep channel & type)
@@ -22,16 +26,16 @@ class MidiMessage:
         return self.msg_type == "CC"
 
     def is_preset_change(self):
-        return self.is_note() and self.knob in range(8, 16)
+        return self.is_note() and self.knob in self.PRESET_CHANGE_RANGE
 
     def is_from_fader(self):
         return self.is_cc() and self.knob in (9, 10)
 
     def is_from_layer_b(self):
         if self.is_cc():
-            return self.knob in range(10, 19)
+            return self.knob in self.LAYER_B_CC_RANGE
         elif self.is_note():
-            return self.knob in range(24, 48)
+            return self.knob in self.LAYER_B_NOTES_RANGE
 
     def translate(self, preset):
         new_msg = deepcopy(self)
