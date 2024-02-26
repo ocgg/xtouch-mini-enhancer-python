@@ -1,12 +1,15 @@
 # Initialize MIDI connections & verify if x-touch mini is connected
 import src.midi_connections as midi
-import src.xtouch as xtouch
-
 import src.command_line_interface as cli
+import src.led_panel as leds
+import src.xtouch as xtouch
 
 
 # DECLARATIONS ################################################################
 
+NOTEON = 0x90
+NOTEOFF = 0x80
+CC = 0xB0
 
 midiin = midi.create_midiin()           # MIDI from xtouch
 midiout = midi.create_midiout()         # MIDI to xtouch (leds management)
@@ -14,9 +17,10 @@ virtualout = midi.create_virtualout()   # main MIDI out
 
 # command line view
 cli = cli.CommandLineInterface()
-
+# X-Touch physical leds management (physical "view")
+leds = leds.LedPanel(midiout)
 # main app controller
-device = xtouch.XTouch(midiin, midiout, virtualout, cli)
+device = xtouch.XTouch(midiin, virtualout, leds, cli)
 
 
 # RUN #########################################################################

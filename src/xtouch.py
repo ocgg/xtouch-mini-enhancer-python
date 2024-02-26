@@ -1,4 +1,3 @@
-import src.ledpanel as leds
 import src.midi_message as midi_message
 
 
@@ -17,16 +16,16 @@ class XTouch:
         {'cc_offset': 66,   'note_offset': 96}
     ]
 
-    def __init__(self, midiin, midiout, virtualout, cli):
+    def __init__(self, midiin, virtualout, leds, cli):
         # MIDI CONNECTIONS #
         self.midiin = midiin
-        self.midiout = midiout
         self.virtualout = virtualout
 
-        # led controls on the physical xtouch
-        self.leds = leds.LedPanel()
-
+        # VIEWS #
+        self.leds = leds
         self.cli = cli
+
+        # INIT #
         self.current_preset = self.PRESETS[0]
         # callback on midi message received
         midiin.set_callback(self.midiin_callback)
