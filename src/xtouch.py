@@ -5,14 +5,14 @@ import src.midi_message as midi_message
 # This is the main app controller
 class XTouch:
     PRESETS = [
-        {'cc_offset': 0,    'note_offset': 0},
-        {'cc_offset': 18,   'note_offset': 48},
-        {'cc_offset': 26,   'note_offset': 56},
-        {'cc_offset': 34,   'note_offset': 64},
-        {'cc_offset': 42,   'note_offset': 72},
-        {'cc_offset': 50,   'note_offset': 80},
-        {'cc_offset': 58,   'note_offset': 88},
-        {'cc_offset': 66,   'note_offset': 96}
+        {'cc_offset': 00},   # 'note_offset': 0},
+        {'cc_offset': 18},  # 'note_offset': 48},
+        {'cc_offset': 26},  # 'note_offset': 56},
+        {'cc_offset': 34},  # 'note_offset': 64},
+        {'cc_offset': 42},  # 'note_offset': 72},
+        {'cc_offset': 50},  # 'note_offset': 80},
+        {'cc_offset': 58},  # 'note_offset': 88},
+        {'cc_offset': 66}   # 'note_offset': 96}
     ]
 
     def __init__(self, midiin, midiout, virtualout, cli):

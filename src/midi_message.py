@@ -42,12 +42,11 @@ class MidiMessage:
         new_msg.source = "virtualout"
         if new_msg.is_cc():
             new_msg.knob += preset['cc_offset']
-        elif new_msg.is_note():
-            new_msg.knob += preset['note_offset']
+        # elif new_msg.is_note():
+        #     new_msg.knob += preset['note_offset']
         return new_msg
 
     def to_raw(self):
-        # first_byte = (self.msg_type << 4) | self.channel
         return [self.first_byte, self.knob, self.value]
 
     # PRIVATE METHODS #
