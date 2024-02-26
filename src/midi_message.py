@@ -15,12 +15,30 @@ class MidiMessage:
 
     # CLASS METHODS #
 
+    def is_note(self):
+        return self.msg_type in ("NOTEON", "NOTEOFF")
+
+    def is_cc(self):
+        return self.msg_type == "CC"
+
+    def is_preset_change(self):
+        return self.is_note() and self.knob in range(8, 16)
+
+    def is_from_fader(self):
+        return self.is_cc() and self.knob in (9, 10)
+
+    def is_from_layer_b(self):
+        if self.is_cc():
+            return self.knob in range(10, 19)
+        elif self.is_note():
+            return self.knob in range(24, 48)
+
     def translate(self, preset):
         new_msg = deepcopy(self)
         new_msg.source = "virtualout"
-        if new_msg.msg_type == "CC":
+        if new_msg.is_cc():
             new_msg.knob += preset['cc_offset']
-        elif new_msg.msg_type in ("NOTEON", "NOTEOFF"):
+        elif new_msg.is_note():
             new_msg.knob += preset['note_offset']
         return new_msg
 

@@ -39,14 +39,19 @@ class XTouch:
         # Send to CLI for display
         self.cli.midiin_msg = msg
 
-        # if preset change (on NOFF 8-15)
-        if msg.msg_type in ("NOTEON", "NOTEOFF") and msg.knob in self.PRESET_CHANGE_RANGE:
+        # if preset change (on NOFF 8-15), no virtual output
+        if msg.is_preset_change():
             if msg.msg_type == "NOTEOFF":
                 self.current_preset = self.PRESETS[msg.knob - 8]
+        # TODO: Do not translate fader or layerB messages
+        elif msg.is_from_fader() or msg.is_from_layer_b():
+            # translate without offset (juste change msg.source)
+            translated_msg = msg.translate(self.PRESETS[0])
+            self.cli.virtualout_msg = translated_msg
+            self.virtualout.send_message(msg.to_raw())
         else:
             translated_msg = msg.translate(self.current_preset)
             self.cli.virtualout_msg = translated_msg
             self.virtualout.send_message(translated_msg.to_raw())
-        # TODO: Do not translate fader
 
     # PRIVATE METHODS #
