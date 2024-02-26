@@ -34,3 +34,5 @@ cli.run()
 
 # DO NOT FORGET !
 print("TODO: close midi ports when app is closed")
+# close midi ports
+# dark all leds
