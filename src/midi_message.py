@@ -1,11 +1,15 @@
 class MidiMessage:
-    def __init__(self, midi_data, source):
-        self.source = source
-        decrypted = self._decrypt(midi_data)
+    def __init__(self, raw_msg, source):
+        decrypted = self._decrypt(raw_msg)
         self.channel = decrypted['channel']
         self.msg_type = decrypted['type']
         self.knob = decrypted['knob']
         self.value = decrypted['value']
+        self.source = source
+
+    def to_raw(self):
+        first_byte = (self.msg_type << 4) | self.channel
+        return [first_byte, self.knob, self.value]
 
     # PRIVATE METHODS #
 
