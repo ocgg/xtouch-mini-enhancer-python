@@ -68,7 +68,7 @@ class MidiMessage:
     def to_raw(self):
         # TODO:better way to handle self.first_byte when converting to raw_msg
         # EX:
-        # channel = 10
+        # channel = 10  # channels start at 0, so this is actually channel 11
         # if msg.is_cc(): first_byte = self.CC + channel
 
         return [self.first_byte, self.knob, self.value]

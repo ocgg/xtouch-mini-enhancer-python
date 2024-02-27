@@ -19,10 +19,12 @@
 #                   27 all on, 28 all blinking
 ###############################################################################
 
+import time
+
 
 class LedPanel:
     CC_LED_BEHAVIOR_RANGE = range(1, 9)
-    # CC_LED_RING_RANGE = range(9, 17)      # unused but it's here
+    CC_LED_RING_RANGE = range(9, 17)  # just for the nice startup animation
     UPPER_ROW_NOTE_RANGE = range(0, 8)
     # LOWER_ROW_NOTE_RANGE = range(8, 16)   # unused but it's here
 
@@ -48,6 +50,19 @@ class LedPanel:
     def dark_all_upper_leds(self):
         for led_note in self.UPPER_ROW_NOTE_RANGE:
             self._dark(led_note)
+
+    def nice_startup_animation(self):
+        for cc in self.CC_LED_RING_RANGE:
+            # self.midiout.send_message([self.CC, cc - 8, 1])
+            for led in range(1, 14):
+                self.midiout.send_message([self.CC, cc, led])
+                time.sleep(0.008)
+
+        for led in reversed(range(1, 14)):
+            # self.midiout.send_message([self.CC, cc - 8, 1])
+            for cc in reversed(self.CC_LED_RING_RANGE):
+                self.midiout.send_message([self.CC, cc, led])
+            time.sleep(0.03)
 
     # PRIVATE METHODS #
 

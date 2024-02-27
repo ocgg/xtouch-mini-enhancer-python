@@ -24,6 +24,8 @@ class XTouch:
         self.leds = leds
         self.cli = cli
         # INIT #
+        # TODO: nice led animation on startup ???
+        leds.nice_startup_animation()
         self.current_preset = self.PRESETS[0]
         leds.light_preset_led(8)  # light the first preset led
         # callback on midi message received
