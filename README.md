@@ -1,6 +1,6 @@
 # X-Touch Mini Enhancer
 
-[README en construction]
+[in progress / en construction]
 
 Ce script est fait pour fonctionner avec un contrôleur MIDI Behringer X-Touch MINI.
 
